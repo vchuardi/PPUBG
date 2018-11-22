@@ -2,13 +2,19 @@
 :- include('object.pl').
 :- include('inventory.pl').
 :- include('command.pl').
+:- include('map.pl').
+
+setup :-
+		createMap,
+		deadzone(1).
 
 start :-
 		write('\nPUBG Prolog\n'),
 		write('Welcome to the battlefield!\n'),
 		write('You have been chosen as one of the lucky contestants. Be the last man\n'),
 		write('standing and you will be remembered as one of the victors.\n\n'),
-		help.
+		help,
+		setup.
 
 help :-
 		write('Available commands:\n'),
