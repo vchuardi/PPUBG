@@ -1,5 +1,13 @@
 :-include('Func_Proc_Global.pl').
 
+init_player :-
+	new_player_Pos,
+	new_enemy_pos,
+	player(position,X,Y),
+	assertz(position(X,Y,P)),
+	enemy(position,X1,Y1),
+	assertz(position(X1,Y1,E)).
+
 /* Player */
 player(health,100).
 player(armor,0).
