@@ -28,11 +28,32 @@ changeZoneHorizontal(X,Y1,Y2) :- Y1=<Y2, changeObjectDown(X,Y1,x), A is Y1+1, ch
 changeZoneVertical(X1,X2,Y) :- X1=<X2, changeObjectDown(X1,Y,x), A is X1+1, changeZoneVertical(A,X2,Y).
 
 /* From The Outer Boundary to The Inner Boundary */
+/* Deadzone Level 1 */
 deadzone(1) :- changeZoneHorizontal(1,1,10).
 deadzone(1) :- changeZoneHorizontal(10,1,10).
 deadzone(1) :- changeZoneVertical(2,9,1).
 deadzone(1) :- changeZoneVertical(2,9,10).
-deadzone(2) :- changeZoneHorizontal(2,1,10), changeZoneHorizontal(9,1,10), changeZoneVertical(2,9,2), changeZoneVertical(2,9,9).
-deadzone(3) :- changeZoneHorizontal(3,1,10), changeZoneHorizontal(8,1,10), changeZoneVertical(2,9,3), changeZoneVertical(2,9,8).
-deadzone(4) :- changeZoneHorizontal(4,1,10), changeZoneHorizontal(7,1,10), changeZoneVertical(2,9,4), changeZoneVertical(2,9,7).
-deadzone(5) :- changeZoneHorizontal(5,1,10), changeZoneHorizontal(6,1,10), changeZoneVertical(2,9,5), changeZoneVertical(2,9,6).
+
+/* Deadzone Level 2 */
+deadzone(2) :- changeZoneHorizontal(2,1,10).
+deadzone(2) :- changeZoneHorizontal(9,1,10).
+deadzone(2) :- changeZoneVertical(2,9,2).
+deadzone(2) :- changeZoneVertical(2,9,9).
+
+/* Deadzone Level 3 */
+deadzone(3) :- changeZoneHorizontal(3,1,10).
+deadzone(3) :- changeZoneHorizontal(8,1,10).
+deadzone(3) :- changeZoneVertical(2,9,3).
+deadzone(3) :- changeZoneVertical(2,9,8).
+
+/* Deadzone Level 4 */
+deadzone(4) :- changeZoneHorizontal(4,1,10).
+deadzone(4) :- changeZoneHorizontal(7,1,10).
+deadzone(4) :- changeZoneVertical(2,9,4).
+deadzone(4) :- changeZoneVertical(2,9,7).
+
+/* Deadzone Level 5 */
+deadzone(5) :- changeZoneHorizontal(5,1,10).
+deadzone(5) :- changeZoneHorizontal(6,1,10).
+deadzone(5) :- changeZoneVertical(2,9,5).
+deadzone(5) :- changeZoneVertical(2,9,6).
