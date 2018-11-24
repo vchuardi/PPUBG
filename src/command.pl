@@ -16,11 +16,12 @@ status :- 	player(health,H), write('Health: '), write(H), nl,
 n :-
 	player(position,X,Y),
 	XBar is X,
-	YBar is Y+1,
+	YBar is Y-1,
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	asserta(player(position, XBar, YBar)),
-	show_around(XBar,YBar).
+	show_around(XBar,YBar),
+	player_map(X,Y).
 /*Move East*/
 e :-
 	player(position, X, Y),
@@ -29,16 +30,18 @@ e :-
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
-	show_around(XBar,YBar).
+	show_around(XBar,YBar),
+	player_map(X,Y).
 /*Move South*/
 s :-
 	player(position, X, Y),
 	XBar is X,
-	YBar is Y-1,
+	YBar is Y+1,
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
-	show_around(XBar,YBar).
+	show_around(XBar,YBar),
+	player_map(X,Y).
 /*Move West*/
 w :-
 	player(position, X, Y),
@@ -47,7 +50,8 @@ w :-
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
-	show_around(XBar,YBar).
+	show_around(XBar,YBar),
+	player_map(X,Y).
 
 /*Attack*/
 attack :-
@@ -122,3 +126,5 @@ is_deadzone(X,Y) :-
 	terrain(X,Y,deadZone),
 	write('You died in deadZone.'), nl, 
 	fail.
+
+player_map(X,Y) :- call(position(X,Y,'P')) , retract(position(X,Y,'P')) , asserta(position(X,Y,'-')).

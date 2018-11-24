@@ -29,7 +29,6 @@ new_player_pos:-
 	retract(player(position, 0, 0)),
 	assert(player(position, X, Y)).
 
-
 /* Enemy */
 make_n_enemy(N) :-
 /* Assert sebanyak N enemy */

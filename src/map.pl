@@ -12,7 +12,7 @@ generateMap(X,Y) :- Y>10, A is X+1, generateMap(A,1).
 generateMap(11,_).
 
 /* Print Map */
-map :- printMap(1,1).
+map :- player_setup_map, printMap(1,1).
 printMap(X,Y) :- X=<10, Y=<10, position(X,Y,Obj) , write(Obj), write(' '), A is (Y+1), printMap(X,A).
 printMap(X,Y) :- Y>10, A is X+1, nl, printMap(A,1).
 
@@ -209,3 +209,7 @@ terrain(7,11,deadZone).
 terrain(8,11,deadZone).
 terrain(9,11,deadZone).
 terrain(10,11,deadZone).
+
+player_setup_map :- 
+    player(position,X,Y),
+    changeObjectUp(X,Y,'P').
