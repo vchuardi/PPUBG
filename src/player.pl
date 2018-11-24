@@ -11,8 +11,8 @@ init_player :-
 	player(position,X,Y),
 	assertz(position(X,Y,P)).
 
-init_enemy(N):-
-	asserta(NBEnemy(N)),
+init_enemy(N) :-
+	/*asserta(NBEnemy(N),*/ /*NBEnemy apa ya??*/
 	NLama is N,
 	make_n_enemy(N),
 	change_n_enemy_pos(NLama).
