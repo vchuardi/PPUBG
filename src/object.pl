@@ -17,7 +17,7 @@
 	damage(revolver,25).
 	damage(shotgun,75).
 
-	init_weapon:-
+/*	init_weapon:- */
 
 
 

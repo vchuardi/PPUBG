@@ -96,7 +96,7 @@ attack :-
 	SisaArmor < 0, 
 	retract(enemy(Id, armor, EArmor)),
 	asserta(enemy(Id, armor, 0)),
-	SisaHealth is EHealth-PDmg+EArmor
+	SisaHealth is EHealth-PDmg+EArmor,
 	retract(enemy(Id, health, EHealth)),
 	asserta(enemy(Id, health, SisaHealth)), !.
 
@@ -113,7 +113,7 @@ drop(X) :- X is X,
 show_around(X,Y) :- 
 	player(position,X,Y),
 	X1 is X+1, X2 is X-1,
-	Y1 is Y+1, Y2 is Y-2,
+	Y1 is Y+1, Y2 is Y-1,
 	terrain(X,Y,Z), write('Current position is '), write(Z), nl,
 	terrain(X,Y2,Z1), write('To the north is '), write(Z1), nl,
 	terrain(X1,Y,Z2), write('To the east is '), write(Z2), nl,
