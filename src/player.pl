@@ -1,6 +1,8 @@
 :-include('Func_Proc_Global.pl').
 :-dynamic(player/2).
 :-dynamic(player/3).
+:-dynamic(enemy/2).
+:-dynamic(enemy/3).
 
 
 init_player :-
