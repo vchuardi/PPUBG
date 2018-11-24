@@ -5,12 +5,11 @@
 :-dynamic(enemy/3).
 
 
-/*init_player :-
+init_player :-
 	new_player_Pos,
 	new_enemy_pos,
 	player(position,X,Y),
 	assertz(position(X,Y,P)).
-*/
 
 init_enemy(N):-
 	asserta(NBEnemy(N)),
