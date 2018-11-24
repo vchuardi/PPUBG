@@ -1,12 +1,14 @@
 status :- 	player(weapon,none),
 			player(health,H), write('Health: '), write(H), nl,
 			player(armor,Ar), write('Armor: '), write(Ar), nl,
-			write('Weapon: none'), nl, !.
+			write('Weapon: none'), nl, !,
+			write('Inventory:'), nl, findall(X:Y,inventory(X,Y),Z), write(Z).
 	
 status :- 	player(health,H), write('Health: '), write(H), nl,
 			player(armor,Ar), write('Armor: '), write(Ar), nl,
 			player(weapon,W), write('Weapon: '), write(W), nl, 
-			player(ammo,Am), write('Ammo: '), write(Am), nl.
+			player(ammo,Am), write('Ammo: '), write(Am), nl,
+			write('Inventory:'), nl, findall(X:Y,inventory(X,Y),Z), write(Z).
 
 /* Hal-hal yang bisa dilakukan Player */
 /*Move North*/
