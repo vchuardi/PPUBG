@@ -90,7 +90,7 @@ terrain(3,6,artRoom).
 terrain(3,7,base).
 terrain(3,8,dorm).
 terrain(3,9,eigen).
-terrain(3,10,geyser.
+terrain(3,10,geyser).
 
 terrain(4,1,yard).
 terrain(4,2,graveyard).
@@ -145,7 +145,7 @@ terrain(8,6,camp).
 terrain(8,7,weeds).
 terrain(8,8,basement).
 terrain(8,9,vault).
-terrain(8,10,NutField).
+terrain(8,10,nutField).
 
 terrain(9,1,pyramid).
 terrain(9,2,circus).
