@@ -12,6 +12,7 @@ init_player :-
 	
 
 init_enemy(N):-
+	asserta(NBEnemy(N)),
 	NLama is N,
 	make_n_enemy(N),
 	change_n_enemy_pos(NLama).
@@ -124,9 +125,12 @@ enemy_attack(Id) :-
 	player(armor, PArmor),
 	enemy(Id, position, X, Y),
 	enemy(Id, weapon, EWeapon),
-	weapon(EWeapon, EDmg),
+	damage(EWeapon, EDmg),
 	enemy(Id, ammo, EAmmo),
 	EAmmo > 0,
+	SisaAmmo is EAmmo-1,
+	retract(enemy(Id, ammo, EAmmo)),
+	asserta(enemy(Id, ammo, SisaAmmo)),
 	SisaArmor is PArmor-EDmg,
 	SisaArmor =< 0,
 	retract(player(armor, PArmor)),
@@ -141,11 +145,33 @@ enemy_attack(Id) :-
 	player(armor, PArmor),
 	enemy(Id, position, X, Y),
 	enemy(Id, weapon, EWeapon),
-	weapon(EWeapon, EDmg),
+	damage(EWeapon, EDmg),
 	enemy(Id, ammo, EAmmo),
 	EAmmo > 0,
+	SisaAmmo is EAmmo-1,
+	retract(enemy(Id, ammo, EAmmo)),
+	asserta(enemy(Id, ammo, SisaAmmo)),
 	SisaArmor is PArmor-EDmg,
 	SisaArmor > 0,
 	retract(player(armor, PArmor)),
 	asserta(player(armor, SisaArmor)), !.
 
+clean_up_enemy(N):-
+    N=:=1,
+	retract(enemy(N, health, 0)),
+	retract(enemy(N, position, _, _)),
+	retract(enemy(N, weapon, _)),
+	retract(enemy(N, ammo, _)),
+	retract(enemy(N, armor, _)).
+clean_up_enemy(N):-
+	retract(enemy(N, health, 0)),
+	retract(enemy(N, position, _, _)),
+	retract(enemy(N, weapon, _)),
+	retract(enemy(N, ammo, _)),
+	retract(enemy(N, armor, _)),
+    NBar is N-1,
+    clean_up_enemy(NBar).
+clean_up_enemy(N):-
+	\+ retract(enemy(N, health, 0)),
+    NBar is N-1,
+    clean_up_enemy(NBar).

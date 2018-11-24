@@ -67,7 +67,7 @@ attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
 	player(ammo, PAmmo),
-	weapon(PWeapon, PDmg),
+	damage(PWeapon, PDmg),
 	/*Cari Enemy yang posisinya sama*/
 	enemy(Id, position, PX, PY),
 	enemy(Id, armor, EArmor),
@@ -82,7 +82,7 @@ attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
 	player(ammo, PAmmo),
-	weapon(PWeapon, PDmg),
+	damage(PWeapon, PDmg),
 	/*Cari Enemy yang posisinya sama*/
 	enemy(Id, position, PX, PY),
 	enemy(Id, armor, EArmor),
