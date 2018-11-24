@@ -25,7 +25,6 @@ new_player_Pos:-
 	retract(player(position, 0, 0)),
 	assert(player(position, X, Y)).
 
-
 /* Enemy */
 
 enemy(health, 100).

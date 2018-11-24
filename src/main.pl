@@ -6,8 +6,7 @@
 
 setup :-
 		createMap,
-		deadzone(1),
-		init_player.
+		deadzone(1).
 
 start :-
 		write('\nPUBG Prolog\n'),
@@ -44,3 +43,4 @@ help :-
 		write('   X = inaccessible\n').
 
 quit :- halt.
+
