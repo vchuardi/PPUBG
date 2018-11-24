@@ -126,8 +126,5 @@ is_deadzone(X,Y) :-
 	terrain(X,Y,deadZone),
 	write('You died in deadZone.'), nl, 
 	fail.
-<<<<<<< HEAD
 
 player_map(X,Y) :- call(position(X,Y,'P')) , retract(position(X,Y,'P')) , asserta(position(X,Y,'-')).
-=======
->>>>>>> 6eda28de0f6b911761cd1772fbd63e963461e65d
