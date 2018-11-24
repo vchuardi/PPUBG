@@ -9,9 +9,20 @@
 	new_player_Pos,
 	new_enemy_pos,
 	player(position,X,Y),
+<<<<<<< HEAD
 	assertz(position(X,Y,P)),
 	enemy(position,X1,Y1),
 	assertz(position(X1,Y1,E)).*/
+=======
+	assertz(position(X,Y,P)).
+	
+
+init_enemy(N):-
+	asserta(NBEnemy(N)),
+	NLama is N,
+	make_n_enemy(N),
+	change_n_enemy_pos(NLama).
+>>>>>>> 78e3fb705e12354b5e3fe94ff1d5a72c2cd2fa43
 
 /* Player */
 player(health,100).
@@ -90,7 +101,65 @@ enemy_move:-
 	retract(enemy(position, X, Y)),
 	assert(enemy(position, XBar, YBar)).
 
+<<<<<<< HEAD
 
 enemy_attack:-
 	print("Nanti dikerjain").
+=======
+enemy_attack(Id) :-
+	player(position, X, Y),
+	player(health, PHealth),
+	player(armor, PArmor),
+	enemy(Id, position, X, Y),
+	enemy(Id, weapon, EWeapon),
+	damage(EWeapon, EDmg),
+	enemy(Id, ammo, EAmmo),
+	EAmmo > 0,
+	SisaAmmo is EAmmo-1,
+	retract(enemy(Id, ammo, EAmmo)),
+	asserta(enemy(Id, ammo, SisaAmmo)),
+	SisaArmor is PArmor-EDmg,
+	SisaArmor =< 0,
+	retract(player(armor, PArmor)),
+	asserta(player(armor, 0)),
+	SisaHealth is PHealth-EDmg+PArmor,
+	retract(player(health, PHealth)),
+	asserta(player(health, SisaHealth)), !.
 
+enemy_attack(Id) :-
+	player(position, X, Y),
+	player(health, PHealth),
+	player(armor, PArmor),
+	enemy(Id, position, X, Y),
+	enemy(Id, weapon, EWeapon),
+	damage(EWeapon, EDmg),
+	enemy(Id, ammo, EAmmo),
+	EAmmo > 0,
+	SisaAmmo is EAmmo-1,
+	retract(enemy(Id, ammo, EAmmo)),
+	asserta(enemy(Id, ammo, SisaAmmo)),
+	SisaArmor is PArmor-EDmg,
+	SisaArmor > 0,
+	retract(player(armor, PArmor)),
+	asserta(player(armor, SisaArmor)), !.
+>>>>>>> 78e3fb705e12354b5e3fe94ff1d5a72c2cd2fa43
+
+clean_up_enemy(N):-
+    N=:=1,
+	retract(enemy(N, health, 0)),
+	retract(enemy(N, position, _, _)),
+	retract(enemy(N, weapon, _)),
+	retract(enemy(N, ammo, _)),
+	retract(enemy(N, armor, _)).
+clean_up_enemy(N):-
+	retract(enemy(N, health, 0)),
+	retract(enemy(N, position, _, _)),
+	retract(enemy(N, weapon, _)),
+	retract(enemy(N, ammo, _)),
+	retract(enemy(N, armor, _)),
+    NBar is N-1,
+    clean_up_enemy(NBar).
+clean_up_enemy(N):-
+	\+ retract(enemy(N, health, 0)),
+    NBar is N-1,
+    clean_up_enemy(NBar).
