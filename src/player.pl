@@ -9,20 +9,14 @@
 	new_player_Pos,
 	new_enemy_pos,
 	player(position,X,Y),
-<<<<<<< HEAD
-	assertz(position(X,Y,P)),
-	enemy(position,X1,Y1),
-	assertz(position(X1,Y1,E)).*/
-=======
 	assertz(position(X,Y,P)).
-	
+*/
 
 init_enemy(N):-
 	asserta(NBEnemy(N)),
 	NLama is N,
 	make_n_enemy(N),
 	change_n_enemy_pos(NLama).
->>>>>>> 78e3fb705e12354b5e3fe94ff1d5a72c2cd2fa43
 
 /* Player */
 player(health,100).
@@ -101,11 +95,6 @@ enemy_move:-
 	retract(enemy(position, X, Y)),
 	assert(enemy(position, XBar, YBar)).
 
-<<<<<<< HEAD
-
-enemy_attack:-
-	print("Nanti dikerjain").
-=======
 enemy_attack(Id) :-
 	player(position, X, Y),
 	player(health, PHealth),
@@ -142,7 +131,6 @@ enemy_attack(Id) :-
 	SisaArmor > 0,
 	retract(player(armor, PArmor)),
 	asserta(player(armor, SisaArmor)), !.
->>>>>>> 78e3fb705e12354b5e3fe94ff1d5a72c2cd2fa43
 
 clean_up_enemy(N):-
     N=:=1,
