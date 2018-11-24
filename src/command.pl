@@ -15,7 +15,7 @@ n :-
 	XBar is X,
 	YBar is Y+1,
 	retract(player(position, X, Y)),
-	assert(player(position, XBar, YBar)).
+	assertz(player(position, XBar, YBar)).
 /*Move East*/
 e :-
 	player(position, X, Y),

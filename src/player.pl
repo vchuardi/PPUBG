@@ -1,4 +1,7 @@
 :-include('Func_Proc_Global.pl').
+:-dynamic(player/2).
+:-dynamic(player/3).
+
 
 /* Player */
 player(health,100).
