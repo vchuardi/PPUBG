@@ -23,6 +23,13 @@ changeObjectDown(X,Y,Object) :- call(position(X,Y,A)) , retract(position(X,Y,A))
 changeObjectUp(X,Y,Object) :- call(position(X,Y,A)) , retract(position(X,Y,A)) , asserta(position(X,Y,Object)), !.
 
 /* Creating Deadzone */
-deadzone(X,Y) :- Y=<10, changeObjectDown(X,Y,x), A is Y+1, deadzone(X,A).
-deadzone(X,Y) :- X=>2, X=<9, changeObjectDown(X,1,x), changeObjDown(X,10,x), A is X+1, deadzone(A,1).
-deadzone(X,Y) :- X=:=10, Y=<10, changeObjectDown(X,Y,)
+/*  */
+changeZoneHorizontal(X,Y1,Y2) :- Y1=<Y2, changeObjectDown(X,Y1,x), A is Y1+1, changeZoneHorizontal(X,A,Y2).
+changeZoneVertical(X1,X2,Y) :- X1=<X2, changeObjectDown(X1,Y,x), A is X1+1, changeZoneHorizontal(A,X2,Y).
+
+/* From The Outer Boundary to The Inner Boundary */
+deadzone(1) :- changeZoneHorizontal(1,1,10), changeZoneHorizontal(10,1,10), changeZoneVertical(2,9,1), changeZoneVertical(2,9,10).
+deadzone(2) :- changeZoneHorizontal(2,1,10), changeZoneHorizontal(9,1,10), changeZoneVertical(2,9,2), changeZoneVertical(2,9,9).
+deadzone(3) :- changeZoneHorizontal(3,1,10), changeZoneHorizontal(8,1,10), changeZoneVertical(2,9,3), changeZoneVertical(2,9,8).
+deadzone(4) :- changeZoneHorizontal(4,1,10), changeZoneHorizontal(7,1,10), changeZoneVertical(2,9,4), changeZoneVertical(2,9,7).
+deadzone(5) :- changeZoneHorizontal(5,1,10), changeZoneHorizontal(6,1,10), changeZoneVertical(2,9,5), changeZoneVertical(2,9,6).
