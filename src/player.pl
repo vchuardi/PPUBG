@@ -5,20 +5,20 @@
 :-dynamic(enemy/3).
 
 
-init_player :-
+/*init_player :-
 	new_player_Pos,
 	new_enemy_pos,
 	player(position,X,Y),
 	assertz(position(X,Y,P)),
 	enemy(position,X1,Y1),
-	assertz(position(X1,Y1,E)).
+	assertz(position(X1,Y1,E)).*/
 
 /* Player */
 player(health,100).
 player(armor,0).
 player(weapon,none).
 player(ammo,0).
-player(position,0,0).
+player(position,3,3).
 
 new_player_Pos:-
 	get_random_position(X, Y),
