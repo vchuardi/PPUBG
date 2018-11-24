@@ -55,45 +55,50 @@ w :-
 
 /*Attack*/
 attack :-
-	player(position, X1, Y1),
-	enemy(position, X2, Y2),
-	player(weapon, PWeapon),
-	enemy(armor, EArmor),
-	X1=:=X2,
-	Y1=:=Y2,
-	PWeapon\=none,
-	damage(PWeapon, PDmg),
-	enemy(health, EHealth),
-	PDmg-EArmor>=0,
-	retract(enemy(armor, EArmor)),
-	assert(enemy(armor, 0)),
-	retract(enemy(health, EHealth)),
-	SisaHealth is EHealth-PDmg+EArmor,
-	assert(enemy(health, SisaHealth)).
-attack :-
-	player(position, X1, Y1),
-	enemy(position, X2, Y2),
-	player(weapon, PWeapon),
-	enemy(armor, EArmor),
-	X1=:=X2,
-	Y1=:=Y2,
-	PWeapon\=none,
-	damage(PWeapon, PDmg),
-	PDmg-EArmor<0,
-	SisaArmor is EArmor-PDmg,
-	retract(enemy(armor, EArmor)),
-	assert(enemy(armor, SisaArmor)).
-attack :-
-	player(position, X1, Y1),
-	enemy(position, X2, Y2),
-	X1=\=X2,
-	Y1=\=Y2,
-	print("\n>> Tidak ada Enemy untuk diserang\n").
+	player(position, PX, PY),
+	\+ enemy(_, position, PX, PY),
+	write('\n>> Tidak ada Enemy untuk diserang\n'), !.
 attack :-
 	player(weapon, PWeapon),
-	PWeapon=none,
-	print("\n>> Tidak ada senjata yang di-equip untuk menyerang\n").
+	PWeapon = none,
+	write('\n>> Tidak ada senjata yang di-equip untuk menyerang\n'), !.
+attack :-
+	player(ammo, PAmmo),
+	PAmmo =< 0,
+	write('\n>> Senjata tidak mempunyai amunisi'), !.
 
+attack :-
+	player(position, PX, PY),
+	player(weapon, PWeapon),
+	player(ammo, PAmmo),
+	weapon(PWeapon, PDmg),
+	/*Cari Enemy yang posisinya sama*/
+	enemy(Id, position, PX, PY),
+	enemy(Id, armor, EArmor),
+	enemy(Id, health, EHealth),
+	SisaArmor is EArmor-PDmg,
+	/* Jika armornya > damage PWeapon */
+	SisaArmor >=0, 
+	retract(enemy(Id, armor, EArmor)),
+	asserta(enemy(Id, armor, SisaArmor)), !.
+
+attack :-
+	player(position, PX, PY),
+	player(weapon, PWeapon),
+	player(ammo, PAmmo),
+	weapon(PWeapon, PDmg),
+	/*Cari Enemy yang posisinya sama*/
+	enemy(Id, position, PX, PY),
+	enemy(Id, armor, EArmor),
+	enemy(Id, health, EHealth),
+	SisaArmor is EArmor-PDmg,
+	/* Jika armornya < damage PWeapon */
+	SisaArmor < 0, 
+	retract(enemy(Id, armor, EArmor)),
+	asserta(enemy(Id, armor, 0)),
+	SisaHealth is EHealth-PDmg+EArmor
+	retract(enemy(Id, health, EHealth)),
+	asserta(enemy(Id, health, SisaHealth)), !.
 
 /*Take*/
 take(X) :- X is X,
@@ -121,5 +126,8 @@ is_deadzone(X,Y) :-
 	terrain(X,Y,deadZone),
 	write('You died in deadZone.'), nl, 
 	fail.
+<<<<<<< HEAD
 
 player_map(X,Y) :- call(position(X,Y,'P')) , retract(position(X,Y,'P')) , asserta(position(X,Y,'-')).
+=======
+>>>>>>> 6eda28de0f6b911761cd1772fbd63e963461e65d
