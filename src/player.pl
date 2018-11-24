@@ -21,7 +21,7 @@ player(health,100).
 player(armor,0).
 player(weapon,none).
 player(ammo,0).
-player(position,0,0).
+player(position,3,3).
 
 new_player_pos:-
 	get_random_position(X, Y),
