@@ -8,8 +8,7 @@
 init_player :-
 	new_player_Pos,
 	new_enemy_pos,
-	player(position,X,Y),
-	assertz(position(X,Y,P)).
+	player(position,X,Y).
 
 init_enemy(N) :-
 	/*asserta(NBEnemy(N),*/ /*NBEnemy apa ya??*/
