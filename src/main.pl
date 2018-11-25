@@ -6,7 +6,7 @@
 
 setup :-
 		createMap,
-		deadzone(1).
+		deadzone(0).
 
 start :-
 		write('\nPUBG Prolog\n'),
