@@ -247,7 +247,7 @@ use(X) :-
 /* Tidak Ada di Inventory*/
 use(X) :- 
 	inventory(X,Y), Y=<0, 
-	write(X), write(' tidak ada di Inventory').
+	write('There is no '), write(X), write(' in your inventory').
 
 /*Drop*/
 drop(X) :- X is X,
@@ -266,7 +266,7 @@ look :-
 	top_object(X,Y1), nl,
 	top_object(X1,Y2), write(' '),
 	top_object(X1,Y), write(' '),
-	top_object(X1,Y1).
+	top_object(X1,Y1), !.
 
 top_object(X,Y) :-
 	position(X,Y,O),
