@@ -87,7 +87,7 @@ attack :-
 	PWeapon = 'revolver',
 	player(ammo, RAM),
 	RAM =<0,
-	write('You don\'t have any Revolver amunition'),
+	write('You don\'t have any revolver amunition'),
 	nbEnemy(X),
 	all_enemy_attack(X),
 	clean_up_enemy(X),!.
@@ -96,14 +96,14 @@ attack :-
 	PWeapon = 'shotgun',
 	player(ammo, SAM),
 	SAM =<0,
-	write('You don\'t have any Shotgun amunition'),
+	write('You don\'t have any shotgun amunition'),
 	nbEnemy(X),
 	all_enemy_attack(X),
 	clean_up_enemy(X),!.
 attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
-	PWeapon = 'Revolver',
+	PWeapon = revolver,
 	inventory(revolver_ammo, RAM),
 	player(ammo, PAmmo),
 	damage(PWeapon, PDmg),
@@ -129,7 +129,7 @@ attack :-
 attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
-	PWeapon = 'Shotgun',
+	PWeapon = shotgun,
 	inventory(shotgun_ammo, SAM),
 	player(ammo, PAmmo),
 	damage(PWeapon, PDmg),
