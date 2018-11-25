@@ -13,7 +13,7 @@
 		init_medicine(NMed),
 		init_armor(NArm),
 		init_ammo(NAmm), 
-		init_weapon(NWep)!.
+		init_weapon(NWep), !.
 
 	init_medicine(N) :-
 		N=:=1,
