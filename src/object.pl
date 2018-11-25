@@ -9,10 +9,11 @@
 	ammo(shotgun_ammo,10).
 
 
-	init_all_object(NMed, NArm, NAmm) :-
+	init_all_object(NMed, NArm, NAmm, NWep) :-
 		init_medicine(NMed),
 		init_armor(NArm),
-		init_ammo(NAmm), !.
+		init_ammo(NAmm), 
+		init_weapon(NWep)!.
 
 	init_medicine(N) :-
 		N=:=1,

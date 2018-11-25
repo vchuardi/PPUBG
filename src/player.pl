@@ -157,6 +157,7 @@ enemy_attack(Id) :-
 	damage(EWeapon, EDmg),
 	enemy(Id, ammo, EAmmo),
 	EAmmo > 0,
+	PHealth is PHealth,
 	SisaAmmo is EAmmo-1,
 	retract(enemy(Id, ammo, EAmmo)),
 	asserta(enemy(Id, ammo, SisaAmmo)),

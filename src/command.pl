@@ -77,6 +77,7 @@ attack :-
 	enemy(Id, position, PX, PY),
 	enemy(Id, armor, EArmor),
 	enemy(Id, health, EHealth),
+	EHealth is EHealth,
 	SisaArmor is EArmor-PDmg,
 	/* Jika armornya > damage PWeapon */
 	SisaArmor >=0, 
@@ -110,9 +111,132 @@ attack :-
 /*Take*/
 take(X) :- X is X,
 	print("Nanti dikerjain").
+
 /*Use*/
-use(X) :- X is X,
-	print("Nanti dikerjain").
+/* Medicine : pill */
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = pill, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(health,Z)), asserta(player(health,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = pill, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(health,Z)), asserta(player(health,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+/* Medicine : Bandage */
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = bandage, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(health,Z)), asserta(player(health,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = bandage, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(health,Z)), asserta(player(health,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+/* Armor : Helmet */
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = helmet, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(armor,Z)), asserta(player(armor,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = helmet, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(armor,Z)), asserta(player(armor,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+/* Armor : Kevlar */	
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = kevlar, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(armor,Z)), asserta(player(armor,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = kevlar, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(armor,Z)), asserta(player(armor,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+/* Weapon */
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = revolver, 
+	player(weapon,Z), Z = none,
+	retract(player(weapon,Z)), asserta(player(weapon,X)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = shotgun, 
+	player(weapon,Z), Z = none,
+	retract(player(weapon,Z)), asserta(player(weapon,X)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+/* Weapon : Sudah Ada */
+use(X) :- X = revolver,
+	inventory(X,Y), Y>0,
+	player(weapon,Z), Z = revolver,
+	write('You ve been equipped with '), write(Z).
+use(X) :- X = shotgun,
+	inventory(X,Y), Y>0,
+	player(weapon,Z), Z = revolver,
+	write('You ve been equipped with '), write(Z).
+use(X) :- X = revolver,
+	inventory(X,Y), Y>0,
+	player(weapon,Z), Z = shotgun,
+	write('You ve been equipped with '), write(Z).
+use(X) :- X = shotgun,
+	inventory(X,Y), Y>0,
+	player(weapon,Z), Z = shotgun,
+	write('You ve been equipped with '), write(Z).
+/* Ammo : Revolver */
+use(X) :- 
+	inventory(X,Y), Y>0,
+	X = revolver_ammo, weapon(revolver), ammo(X,X1),
+	player(ammo,Z), Z = X1,
+	write('Your revolver magazine is full').
+use(X) :- 
+	inventory(X,Y), Y>0,
+	X = revolver_ammo, weapon(revolver), ammo(X,X1), 
+	player(ammo,Z), P1 is Y-X1, P is P1+Z, Y >= X1, 
+	retract(player(ammo,Z)), asserta(player(ammo,6)),
+	retract(inventory(X,Y)),asserta(inventory(X,P)).
+use(X) :- 
+	inventory(X,Y), Y>0,
+	X = revolver_ammo, weapon(revolver), ammo(X,X1), 
+	player(ammo,Z), P is X1-Z, Y < P, X2 is Z+Y,
+	retract(player(ammo,Z)), asserta(player(ammo,X2)),
+	retract(inventory(X,Y)),asserta(inventory(X,0)).
+/* Ammo : Shotgun */
+use(X) :- 
+	inventory(X,Y), Y>0,
+	X = shotgun_ammo, weapon(shotgun), ammo(X,X1),
+	player(ammo,Z), Z = X1,
+	write('Your shotgun magazine is full').
+use(X) :- 
+	inventory(X,Y), Y>0,
+	X = shotgun_ammo, weapon(shotgun), ammo(X,X1), 
+	player(ammo,Z), P1 is Y-X1, P is P1+Z, Y >= X1, 
+	retract(player(ammo,Z)), asserta(player(ammo,10)),
+	retract(inventory(X,Y)),asserta(inventory(X,P)).
+use(X) :- 
+	inventory(X,Y), Y>0,
+	X = shotgun_ammo, weapon(shotgun), ammo(X,X1), 
+	player(ammo,Z), P is X1-Z, Y < P, X2 is Z+Y,
+	retract(player(ammo,Z)), asserta(player(ammo,X2)),
+	retract(inventory(X,Y)),asserta(inventory(X,0)).
+
+/* Tidak Ada di Inventory*/
+use(X) :- 
+	inventory(X,Y), Y=<0, 
+	write(X), write(' tidak ada di Inventory').
+
 /*Drop*/
 drop(X) :- X is X,
 	print("Nanti dikerjain").
