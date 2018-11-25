@@ -7,9 +7,8 @@
 
 
 	init_player :-
-		new_player_pos,
-		player(position,X,Y),
-		assertz(position(X,Y,p)).
+		make_player,
+		change_player_pos.
 
 	init_enemy(N) :-
 		/* Banyak Enemy */
@@ -19,13 +18,14 @@
 		change_n_enemy_pos(NLama).
 
 /* Player */
-	player(health,100).
-	player(armor,0).
-	player(weapon,none).
-	player(ammo,0).
-	player(position,0,0).
+	make_player :-
+		asserta(player(health,100)),
+		asserta(player(armor,0)),
+		asserta(player(weapon,none)),
+		asserta(player(ammo,0)),
+		asserta(player(position,0,0)).
 
-	new_player_pos:-
+	change_player_pos:-
 		get_random_position(X, Y),
 		retract(player(position, 0, 0)),
 		asserta(player(position, X, Y)).
@@ -34,15 +34,15 @@
 	make_n_enemy(N) :-
 		N=:=1,
 		asserta(enemy(N, health, 100)),
-		asserta(enemy(N, armor, 20)),
+		asserta(enemy(N, armor, 0)),
 		asserta(enemy(N, weapon, revolver)),
-		asserta(enemy(N, ammo, 100)),
+		asserta(enemy(N, ammo, 50)),
 		asserta(enemy(N, position, 0, 0)), !.
 	make_n_enemy(N) :-
 		asserta(enemy(N, health, 100)),
-		asserta(enemy(N, armor, 20)),
+		asserta(enemy(N, armor, 0)),
 		asserta(enemy(N, weapon, revolver)),
-		asserta(enemy(N, ammo, 100)),
+		asserta(enemy(N, ammo, 50)),
 		asserta(enemy(N, position, 0, 0)), 
 		NBar is N-1,
 		make_n_enemy(NBar).
@@ -135,6 +135,9 @@
 		N=:=1,
 		enemy_attack(N), !.
 	all_enemy_attack(N) :-
+		N=:=1,
+		\+ enemy_attack(N), !.
+	all_enemy_attack(N) :-
 		enemy_attack(N),
 		NBar is N-1,
 		all_enemy_attack(NBar).
@@ -162,7 +165,8 @@
 		asserta(player(armor, 0)),
 		SisaHealth is PHealth-EDmg+PArmor,
 		retract(player(health, PHealth)),
-		asserta(player(health, SisaHealth)), !.
+		asserta(player(health, SisaHealth)), 
+		write('You\'ve been attacked by an enemy!!'), !.
 
 	enemy_attack(Id) :-
 		player(position, X, Y),
@@ -180,25 +184,41 @@
 		SisaArmor is PArmor-EDmg,
 		SisaArmor > 0,
 		retract(player(armor, PArmor)),
-		asserta(player(armor, SisaArmor)), !.
+		asserta(player(armor, SisaArmor)), 
+		write('You\'ve been attacked by an enemy!!'),!.
 
 /*Membersihkan enemy yang sudah mati*/
-	clean_up_enemy(N):-
+	clean_up_enemy(N) :-
 		N=:=1,
-		retract(enemy(N, health, 0)),
-		retract(enemy(N, position, _, _)),
-		retract(enemy(N, weapon, _)),
+		enemy(N, health, EHealth),
+		EHealth =< 0,
+		retract(enemy(N, health, EHealth)),
+		retract(enemy(N, position, X, Y)),
+		retract(enemy(N, weapon, EWeapon)),
 		retract(enemy(N, ammo, _)),
-		retract(enemy(N, armor, _)).
-	clean_up_enemy(N):-
-		retract(enemy(N, health, 0)),
-		retract(enemy(N, position, _, _)),
-		retract(enemy(N, weapon, _)),
+		retract(enemy(N, armor, _)), 
+		assertz(position(X, Y, EWeapon)),
+		EAmmo is 'revolver_ammo',
+		assertz(position(X, Y, EAmmo)), !.
+	clean_up_enemy(N) :-
+		N=:=1, !.
+	clean_up_enemy(N) :-
+		enemy(N, health, EHealth),
+		EHealth =< 0,
+		retract(enemy(N, health, EHealth)),
+		retract(enemy(N, position, X, Y)),
+		retract(enemy(N, weapon, EWeapon)),
 		retract(enemy(N, ammo, _)),
 		retract(enemy(N, armor, _)),
+		assertz(position(X, Y, EWeapon)),
+		EAmmo is 'revolver_ammo',
+		assertz(position(X, Y, EAmmo)),
 		NBar is N-1,
 		clean_up_enemy(NBar).
-	clean_up_enemy(N):-
-		\+ retract(enemy(N, health, 0)),
+	clean_up_enemy(N) :-
+		enemy(N, health, EHealth),
+		EHealth > 0,
 		NBar is N-1,
 		clean_up_enemy(NBar).
+
+
