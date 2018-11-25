@@ -3,6 +3,7 @@
 :-dynamic(player/3).
 :-dynamic(enemy/3).
 :-dynamic(enemy/4).
+:-dynamic(position/3).
 
 
 	init_player :-
@@ -26,7 +27,7 @@
 
 	new_player_pos:-
 		get_random_position(X, Y),
-		retract(player(position, _, _)),
+		retract(player(position, 0, 0)),
 		asserta(player(position, X, Y)).
 
 /* Enemy */

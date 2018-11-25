@@ -1,3 +1,5 @@
+:-dynamic(position/3).
+
 
 status :- 	player(weapon,none),
 			player(health,H), write('Health: '), write(H), nl,
