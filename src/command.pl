@@ -112,7 +112,11 @@ attack :-
 take(O) :-
 	player(position, X, Y),
 	position(X, Y, O),
-	write('You took a/an '), write(O), nl.
+	write('You took a/an '), write(O), nl,
+	retract(position(X, Y, O)),
+	retract(inventory(O, Nb)),
+	NbNew is Nb+1,
+	assertz(inventory(O, NbNew)).
 take(O)  :-
 	player(position, X, Y),
 	\+ position(X, Y, O),
