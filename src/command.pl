@@ -521,8 +521,7 @@ top_object(X,Y) :-
 	O = shotgun_ammo,
 	write('O').
 top_object(X,Y) :-
-	position(X,Y,O),
-	O = 'P',
+	player(position,X,Y),
 	write('P').
 top_object(X,Y) :-
 	position(X,Y,O),

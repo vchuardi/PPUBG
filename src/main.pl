@@ -12,6 +12,16 @@ setup :-
 		init_all_object(10, 5, 4, 15).
 
 start :-
+		/*
+		 _____  _    _ ____   _____                 _             
+		|  __ \| |  | |  _ \ / ____|               | |            
+		| |__) | |  | | |_) | |  __ _ __  _ __ ___ | | ___   __ _ 
+		|  ___/| |  | |  _ <| | |_ | '_ \| '__/ _ \| |/ _ \ / _` |
+		| |    | |__| | |_) | |__| | |_) | | | (_) | | (_) | (_| |
+		|_|     \____/|____/ \_____| .__/|_|  \___/|_|\___/ \__, |
+								| |                       __/ |
+								|_|                      |___/ 
+		*/
 		write('\nPUBG Prolog\n'),
 		write('Welcome to the battlefield!\n'),
 		write('You have been chosen as one of the lucky contestants. Be the last man\n'),
