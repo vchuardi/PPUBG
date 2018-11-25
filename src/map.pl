@@ -226,7 +226,8 @@ terrain(10,12,deadZone).
 terrain(11,12,deadZone).
 terrain(12,12,deadZone).
 
-change_terrain(X,Y) :- retract(terrain(X,Y,Z)),asserta(terrain(X,Y,deadZone)). 
+change_terrain(X,Y) :- Z is Z, 
+    retract(terrain(X,Y,Z)), asserta(terrain(X,Y,deadZone)). 
 
 player_setup_map :- 
     player(position,X,Y),

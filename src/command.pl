@@ -110,9 +110,60 @@ attack :-
 /*Take*/
 take(X) :- X is X,
 	print("Nanti dikerjain").
+
 /*Use*/
-use(X) :- X is X,
-	print("Nanti dikerjain").
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = pill, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(health,Z)), asserta(player(health,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = pill, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(health,Z)), asserta(player(health,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = bandage, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(health,Z)), asserta(player(health,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = bandage, medicine(X,X1),
+	player(health,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(health,Z)), asserta(player(health,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = helmet, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(armor,Z)), asserta(player(armor,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = helmet, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(armor,Z)), asserta(player(armor,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = kevlar, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 =< 100,
+	retract(player(armor,Z)), asserta(player(armor,Z1)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y>0, Y1 is Y-1,
+	X = kevlar, armor(X,X1),
+	player(armor,Z), Z1 is Z+X1, Z1 > 100,
+	retract(player(armor,Z)), asserta(player(armor,100)),
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+use(X) :- 
+	inventory(X,Y), Y=<0, 
+	write(X), write(' tidak ada di Inventory').
+
 /*Drop*/
 drop(X) :- X is X,
 	print("Nanti dikerjain").
