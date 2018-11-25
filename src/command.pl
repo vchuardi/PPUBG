@@ -85,25 +85,25 @@ attack :-
 attack :-
 	player(weapon, PWeapon),
 	PWeapon = 'revolver',
-	inventory(revolver_ammo, RAM),
+	player(ammo, RAM),
 	RAM =<0,
-	write('You don\'t have any Revolver amunition'),
+	write('You don\'t have any revolver amunition'),
 	nbEnemy(X),
 	all_enemy_attack(X),
 	clean_up_enemy(X),!.
 attack :-
 	player(weapon, PWeapon),
 	PWeapon = 'shotgun',
-	inventory(shotgun_ammo, SAM),
+	player(ammo, SAM),
 	SAM =<0,
-	write('You don\'t have any Shotgun amunition'),
+	write('You don\'t have any shotgun amunition'),
 	nbEnemy(X),
 	all_enemy_attack(X),
 	clean_up_enemy(X),!.
 attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
-	PWeapon = 'Revolver',
+	PWeapon = revolver,
 	inventory(revolver_ammo, RAM),
 	player(ammo, PAmmo),
 	damage(PWeapon, PDmg),
@@ -129,7 +129,7 @@ attack :-
 attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
-	PWeapon = 'Shotgun',
+	PWeapon = shotgun,
 	inventory(shotgun_ammo, SAM),
 	player(ammo, PAmmo),
 	damage(PWeapon, PDmg),
@@ -149,9 +149,10 @@ attack :-
 	SisaSAM is SAM-1,
 	retract(inventory(shotgun_ammo, SAM)),
 	asserta(inventory(shotgun_ammo, SisaSAM)),
-	nbEnemy(X),
+	/*nbEnemy(X),
 	all_enemy_attack(X),
-	clean_up_enemy(X),!.
+	clean_up_enemy(X),*/
+	!.
 
 attack :-
 	player(position, PX, PY),
@@ -360,7 +361,7 @@ use(X) :- X = shotgun,
 /* Ammo : Revolver */
 use(X) :- 
 	inventory(X,Y), Y>0,
-	X = revolver_ammo, weapon(revolver), ammo(X,X1),
+	X = revolver_ammo, player(weapon,Y1), Y1 = revolver, ammo(X,X1),
 	player(ammo,Z), Z = X1,
 	write('Your revolver magazine is full'),
 	nbEnemy(A),
@@ -368,7 +369,7 @@ use(X) :-
 	move_enemy(A), !.
 use(X) :- 
 	inventory(X,Y), Y>0,
-	X = revolver_ammo, weapon(revolver), ammo(X,X1), 
+	X = revolver_ammo, player(weapon,Y1), Y1 = revolver, ammo(X,X1), 
 	player(ammo,Z), P1 is Y-X1, P is P1+Z, Y >= X1, 
 	retract(player(ammo,Z)), asserta(player(ammo,6)),
 	retract(inventory(X,Y)),asserta(inventory(X,P)),
@@ -377,7 +378,7 @@ use(X) :-
 	move_enemy(A), !.
 use(X) :- 
 	inventory(X,Y), Y>0,
-	X = revolver_ammo, weapon(revolver), ammo(X,X1), 
+	X = revolver_ammo, player(weapon,Y1), Y1 = revolver, ammo(X,X1), 
 	player(ammo,Z), P is X1-Z, Y < P, X2 is Z+Y,
 	retract(player(ammo,Z)), asserta(player(ammo,X2)),
 	retract(inventory(X,Y)),asserta(inventory(X,0)),
@@ -387,7 +388,7 @@ use(X) :-
 /* Ammo : Shotgun */
 use(X) :- 
 	inventory(X,Y), Y>0,
-	X = shotgun_ammo, weapon(shotgun), ammo(X,X1),
+	X = shotgun_ammo, player(weapon,Y1), Y1 = shotgun, ammo(X,X1),
 	player(ammo,Z), Z = X1,
 	write('Your shotgun magazine is full'),
 	nbEnemy(A),
@@ -395,7 +396,7 @@ use(X) :-
 	move_enemy(A), !.
 use(X) :- 
 	inventory(X,Y), Y>0,
-	X = shotgun_ammo, weapon(shotgun), ammo(X,X1), 
+	X = shotgun_ammo, player(weapon,Y1), Y1 = shotgun, ammo(X,X1), 
 	player(ammo,Z), P1 is Y-X1, P is P1+Z, Y >= X1, 
 	retract(player(ammo,Z)), asserta(player(ammo,10)),
 	retract(inventory(X,Y)),asserta(inventory(X,P)),
@@ -404,7 +405,7 @@ use(X) :-
 	move_enemy(A), !.
 use(X) :- 
 	inventory(X,Y), Y>0,
-	X = shotgun_ammo, weapon(shotgun), ammo(X,X1), 
+	X = shotgun_ammo, player(weapon,Y1), Y1 = shotgun, ammo(X,X1), 
 	player(ammo,Z), P is X1-Z, Y < P, X2 is Z+Y,
 	retract(player(ammo,Z)), asserta(player(ammo,X2)),
 	retract(inventory(X,Y)),asserta(inventory(X,0)),
@@ -535,7 +536,7 @@ show_around(X,Y) :-
 	terrain(X2,Y,Z1), write('To the north is '), write(Z1), nl,
 	terrain(X,Y1,Z2), write('To the east is '), write(Z2), nl,
 	terrain(X1,Y,Z3), write('To the south is '), write(Z3), nl,
-	terrain(X,Y2,Z4), write('To the west is '), write(Z4).
+	terrain(X,Y2,Z4), write('To the west is '), write(Z4), nl.
 
 is_deadzone(X,Y) :-
 	\+terrain(X,Y,deadZone).
