@@ -6,7 +6,7 @@
 
 
 	init_player :-
-		new_player_Pos,
+		new_player_pos,
 		player(position,X,Y),
 		assertz(position(X,Y,p)).
 
@@ -24,9 +24,9 @@
 	player(ammo,0).
 	player(position,0,0).
 
-	new_player_Pos:-
+	new_player_pos:-
 		get_random_position(X, Y),
-		retract(player(position, 0, 0)),
+		retract(player(position, _, _)),
 		asserta(player(position, X, Y)).
 
 /* Enemy */

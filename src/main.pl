@@ -5,6 +5,7 @@
 :- include('map.pl').
 
 setup :-
+		new_player_pos,
 		createMap,
 		deadzone(0),
 		init_player,
