@@ -251,6 +251,61 @@ use(X) :-
 drop(X) :- X is X,
 	print("Nanti dikerjain").
 
+/*Look*/
+look :-
+	player(position,X,Y),
+	X1 is X+1, X2 is X-1,
+	Y1 is Y+1, Y2 is Y-1,
+	top_object(X2,Y2,Z), write(Z), write(' '),
+	top_object(X2,Y,Z1), write(Z1), write(' '),
+	top_object(X2,Y1,Z2), write(Z2), nl,
+	top_object(X,Y2,Z3), write(Z3), write(' '),
+	top_object(X,Y,Z4), write(Z4), write(' '),
+	top_object(X,Y1,Z5), write(Z5), nl,
+	top_object(X1,Y2,Z6), write(Z6), write(' '),
+	top_object(X1,Y,Z7), write(Z7), write(' '),
+	top_object(X1,Y1,Z8), write(Z8).
+
+/*top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = pill,
+	Z is 'M'. 
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = bandage,
+	Z is 'M'. 
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = revolver,
+	Z is 'W'. 
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = shotgun,
+	Z is 'W'.
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = helmet,
+	Z is 'A'. 
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = kevlar,
+	Z is 'A'.
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = revolver_ammo,
+	Z is 'O'. 
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = shotgun_ammo,
+	Z is 'O'.
+top_object(X,Y,Z) :-
+	position(X,Y,O),
+	O = 'P',
+	Z is O.
+*/
+top_object(X,Y,Z) :-
+	position(X,Y,Z).
+
 show_around(X,Y) :- 
 	player(position,X,Y),
 	X1 is X+1, X2 is X-1,

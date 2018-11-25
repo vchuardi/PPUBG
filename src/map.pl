@@ -231,4 +231,4 @@ change_terrain(X,Y) :-
 
 player_setup_map :- 
     player(position,X,Y),
-    changeObjectUp(X,Y,'P').
+    changeObjectDown(X,Y,'P').
