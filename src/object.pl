@@ -1,4 +1,5 @@
 :-include('Func_Proc_Global.pl').
+:-dynamic(position/3).
 
 /* Object */
 	medicine(pill,25).

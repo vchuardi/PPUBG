@@ -3,6 +3,7 @@
 :-dynamic(player/3).
 :-dynamic(enemy/3).
 :-dynamic(enemy/4).
+:-dynamic(position/3).
 
 
 	init_player :-

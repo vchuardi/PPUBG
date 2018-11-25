@@ -7,13 +7,15 @@
 /* Rules */
 /* Create Map */
 createMap :- generateMap(1,1), !.
-generateMap(X,Y) :- X=<12, Y=<12, assertz(position(X,Y,-)), A is Y+1, generateMap(X,A).
+generateMap(X,Y) :- X=<12, Y=<12, assertz(position(X,Y,'-')), A is Y+1, generateMap(X,A).
 generateMap(X,Y) :- Y>12, A is X+1, generateMap(A,1).
 generateMap(11,_).
 
 /* Print Map */
 map :- player_setup_map, printMap(1,1).
-printMap(X,Y) :- X=<12, Y=<12, position(X,Y,Obj) , write(Obj), write(' '), A is (Y+1), printMap(X,A).
+printMap(X,Y) :- X=<12, Y=<12, position(X,Y,'x'), write('X'), write(' '), A is (Y+1), printMap(X,A).
+printMap(X,Y) :- X=<12, Y=<12, position(X,Y,'P'), write('P'), write(' '), A is (Y+1), printMap(X,A).
+printMap(X,Y) :- X=<12, Y=<12, position(X,Y,'-'), write('-'), write(' '), A is (Y+1), printMap(X,A).
 printMap(X,Y) :- Y>12, A is X+1, nl, printMap(A,1).
 
 /* Change Object in Position (X,Y) */
@@ -24,8 +26,8 @@ changeObjectUp(X,Y,Object) :- call(position(X,Y,A)) , retract(position(X,Y,A)) ,
 
 /* Creating Deadzone */
 /* Change Object in A Line */
-changeZoneHorizontal(X,Y1,Y2) :- Y1=<Y2, changeObjectDown(X,Y1,x), change_terrain(X,Y1), A is Y1+1, changeZoneHorizontal(X,A,Y2).
-changeZoneVertical(X1,X2,Y) :- X1=<X2, changeObjectDown(X1,Y,x), change_terrain(X1,Y), A is X1+1, changeZoneVertical(A,X2,Y).
+changeZoneHorizontal(X,Y1,Y2) :- Y1=<Y2, changeObjectDown(X,Y1,'x'), change_terrain(X,Y1), A is Y1+1, changeZoneHorizontal(X,A,Y2).
+changeZoneVertical(X1,X2,Y) :- X1=<X2, changeObjectDown(X1,Y,'x'), change_terrain(X1,Y), A is X1+1, changeZoneVertical(A,X2,Y).
 
 /* From The Outer Boundary to The Inner Boundary */
 /* Deadzone Level 0 */

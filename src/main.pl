@@ -7,8 +7,7 @@
 setup :-
 		new_player_pos,
 		createMap,
-		deadzone(0),
-		init_player,
+		\+deadzone(0),
 		init_enemy(10), 
 		init_all_object(10, 5, 4, 15).
 
