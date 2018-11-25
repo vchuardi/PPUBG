@@ -118,7 +118,7 @@ take(O) :-
 	retract(position(X, Y, O)),
 	retract(inventory(O, Nb)),
 	NbNew is Nb+1,
-	assertz(inventory(O, NbNew)).
+	assertz(inventory(O, NbNew)), !.
 take(O)  :-
 	player(position, X, Y),
 	\+ position(X, Y, O),
