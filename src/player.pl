@@ -63,8 +63,14 @@
 
 /*Menggerakkan enemy 1 1*/
 	move_enemy(N) :-
+		N=:=1, !.
+	move_enemy(N) :-
 		N=:=1,
 		enemy_move(N), !.
+	move_enemy(N) :-
+		\+ enemy_move(N),
+		NBar is N-1,
+		move_enemy(NBar).
 	move_enemy(N) :-
 		enemy_move(N),
 		NBar is N-1,
@@ -165,8 +171,8 @@
 		asserta(player(armor, 0)),
 		SisaHealth is PHealth-EDmg+PArmor,
 		retract(player(health, PHealth)),
-		asserta(player(health, SisaHealth)), 
-		write('You\'ve been attacked by an enemy!!'), !.
+		asserta(player(health, SisaHealth)), !,
+		write('You\'ve been attacked by an enemy!!').
 
 	enemy_attack(Id) :-
 		player(position, X, Y),
@@ -184,8 +190,8 @@
 		SisaArmor is PArmor-EDmg,
 		SisaArmor > 0,
 		retract(player(armor, PArmor)),
-		asserta(player(armor, SisaArmor)), 
-		write('You\'ve been attacked by an enemy!!'),!.
+		asserta(player(armor, SisaArmor)),!, 
+		write('You\'ve been attacked by an enemy!!').
 
 /*Membersihkan enemy yang sudah mati*/
 	clean_up_enemy(N) :-
