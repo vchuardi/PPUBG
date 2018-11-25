@@ -24,8 +24,8 @@ changeObjectUp(X,Y,Object) :- call(position(X,Y,A)) , retract(position(X,Y,A)) ,
 
 /* Creating Deadzone */
 /* Change Object in A Line */
-changeZoneHorizontal(X,Y1,Y2) :- Y1=<Y2, changeObjectDown(X,Y1,x), A is Y1+1, changeZoneHorizontal(X,A,Y2).
-changeZoneVertical(X1,X2,Y) :- X1=<X2, changeObjectDown(X1,Y,x), A is X1+1, changeZoneVertical(A,X2,Y).
+changeZoneHorizontal(X,Y1,Y2) :- Y1=<Y2, changeObjectDown(X,Y1,x), change_terrain(X,Y1), A is Y1+1, changeZoneHorizontal(X,A,Y2).
+changeZoneVertical(X1,X2,Y) :- X1=<X2, changeObjectDown(X1,Y,x), change_terrain(X1,Y), A is X1+1, changeZoneVertical(A,X2,Y).
 
 /* From The Outer Boundary to The Inner Boundary */
 /* Deadzone Level 0 */
@@ -65,6 +65,7 @@ deadzone(5) :- changeZoneVertical(1,9,6).
 deadzone(5) :- changeZoneVertical(1,9,7).
 
 /* Terrain */
+:- dynamic(terrain/3).
 
 terrain(2,2,hole).
 terrain(2,3,hut).
@@ -224,6 +225,8 @@ terrain(9,12,deadZone).
 terrain(10,12,deadZone).
 terrain(11,12,deadZone).
 terrain(12,12,deadZone).
+
+change_terrain(X,Y) :- retract(terrain(X,Y,Z)),asserta(terrain(X,Y,deadZone)). 
 
 player_setup_map :- 
     player(position,X,Y),
