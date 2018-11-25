@@ -1,3 +1,5 @@
+:- dynamic(inventory/2).
+
 inventory(pill,0).
 inventory(bandage,0).
 inventory(helmet,0).
