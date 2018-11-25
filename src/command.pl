@@ -61,7 +61,8 @@ attack :-
 attack :-
 	player(weapon, PWeapon),
 	PWeapon = none,
-	write('\n>> Tidak ada senjata yang di-equip untuk menyerang\n'), !.
+	write('\n>> Tidak ada senjata yang di-equip untuk menyerang\n'), 
+	enemy_attack()!.
 attack :-
 	player(ammo, PAmmo),
 	PAmmo =< 0,
@@ -80,7 +81,10 @@ attack :-
 	/* Jika armornya > damage PWeapon */
 	SisaArmor >=0, 
 	retract(enemy(Id, armor, EArmor)),
-	asserta(enemy(Id, armor, SisaArmor)), !.
+	asserta(enemy(Id, armor, SisaArmor)),
+	SisaAmmo is PAmmo-1,
+	retract(player(ammo, PAmmo)),
+	asserta(player(ammo, SisaAmmo)), !.
 
 attack :-
 	player(position, PX, PY),
@@ -98,7 +102,10 @@ attack :-
 	asserta(enemy(Id, armor, 0)),
 	SisaHealth is EHealth-PDmg+EArmor,
 	retract(enemy(Id, health, EHealth)),
-	asserta(enemy(Id, health, SisaHealth)), !.
+	asserta(enemy(Id, health, SisaHealth)), 
+	SisaAmmo is PAmmo-1,
+	retract(player(ammo, PAmmo)),
+	asserta(player(ammo, SisaAmmo)), !.
 
 /*Take*/
 take(X) :- X is X,

@@ -1,21 +1,29 @@
 :-include('Func_Proc_Global.pl').
 :-dynamic(player/2).
 :-dynamic(player/3).
-:-dynamic(enemy/2).
 :-dynamic(enemy/3).
+:-dynamic(enemy/4).
 
 
 init_player :-
 	new_player_Pos,
-	new_enemy_pos,
 	player(position,X,Y),
-	assertz(position(X,Y,P)).
+	assertz(position(X,Y,p)).
 
 init_enemy(N) :-
-	/*asserta(NBEnemy(N),*/ /*NBEnemy apa ya??*/
+	/* Banyak Enemy */
+	asserta(nbEnemy(N)),
 	NLama is N,
 	make_n_enemy(N),
 	change_n_enemy_pos(NLama).
+
+move_enemy(N) :-
+	N=:=1,
+	enemy_move(N), !.
+move_enemy(N) :-
+	enemy_move(N),
+	NBar is N-1,
+	move_enemy(NBar).
 
 /* Player */
 player(health,100).
@@ -27,72 +35,98 @@ player(position,3,3).
 new_player_Pos:-
 	get_random_position(X, Y),
 	retract(player(position, 0, 0)),
-	assert(player(position, X, Y)).
+	asserta(player(position, X, Y)).
 
 /* Enemy */
+make_n_enemy(N) :-
+	N=:=1,
+	asserta(enemy(N, health, 100)),
+	asserta(enemy(N, armor, 20)),
+	asserta(enemy(N, weapon, revolver)),
+	asserta(enemy(N, ammo, 100)),
+	asserta(enemy(N, position, 0, 0)), !.
+make_n_enemy(N) :-
+	asserta(enemy(N, health, 100)),
+	asserta(enemy(N, armor, 20)),
+	asserta(enemy(N, weapon, revolver)),
+	asserta(enemy(N, ammo, 100)),
+	asserta(enemy(N, position, 0, 0)), 
+	NBar is N-1,
+	make_n_enemy(NBar).
 
-enemy(health, 100).
-enemy(armor, 0).
-enemy(weapon, none).
-enemy(ammo, 0).
-enemy(position, 0, 0).
-
-new_enemy_pos:-
+change_n_enemy_pos(N) :-
+	N=:=1,
+	retract(enemy(N, position, 0, 0)),
 	get_random_position(X, Y),
-	retract(enemy(position, 0, 0)),
-	assert(enemy(position, X, Y)).
+	asserta(enemy(N, position, X, Y)),
+	assertz(position(X, Y, e)), !.
+change_n_enemy_pos(N) :-
+	retract(enemy(N, position, 0, 0)),
+	get_random_position(X, Y),
+	asserta(enemy(N, position, X, Y)),
+	assertz(position(X, Y, e)),
+	NBar is N-1,
+	change_n_enemy_pos(NBar).
 
-enemy_move:-
+enemy_move(Id) :-
 	/*1 Diam, 2 Bergerak*/
 	random(1, 2, State),
 	State=:=2,
-	enemy(position, X, Y),
+	enemy(Id, position, X, Y),
 	random(1, 4, Arah),
 	/*1 Utara, 2 Timur, 3 Selatan, 4 Barat*/
 	Arah=:=1,
 	XBar is X,
 	YBar is Y+1,
-	retract(enemy(position, X, Y)),
-	assert(enemy(position, XBar, YBar)).
+	retract(enemy(Id, position, X, Y)),
+	assert(enemy(Id, position, XBar, YBar)),
+	retract(position(X, Y, e)),
+	assertz(position(XBar, YBar, e)).
 	
-enemy_move:-
+enemy_move(Id) :-
 	/*1 Diam, 2 Bergerak*/
 	random(1, 2, State),
 	State=:=2,
-	enemy(position, X, Y),
+	enemy(Id, position, X, Y),
 	random(1, 4, Arah),
 	/*1 Utara, 2 Timur, 3 Selatan, 4 Barat*/
 	Arah=:=2,
 	XBar is X+1,
 	YBar is Y,
-	retract(enemy(position, X, Y)),
-	assert(enemy(position, XBar, YBar)).
+	retract(enemy(Id, position, X, Y)),
+	assert(enemy(Id, position, XBar, YBar)),
+	retract(position(X, Y, E)),
+	assertz(position(XBar, YBar, E)), !.
 
-enemy_move:-
+enemy_move(Id) :-
 	/*1 Diam, 2 Bergerak*/
 	random(1, 2, State),
 	State=:=2,
-	enemy(position, X, Y),
+	enemy(Id, position, X, Y),
 	random(1, 4, Arah),
 	/*1 Utara, 2 Timur, 3 Selatan, 4 Barat*/
 	Arah=:=3,
 	XBar is X,
 	YBar is Y-1,
-	retract(enemy(position, X, Y)),
-	assert(enemy(position, XBar, YBar)).
+	retract(enemy(Id, position, X, Y)),
+	assert(enemy(Id, position, XBar, YBar)),
+	retract(position(X, Y, e)),
+	assertz(position(XBar, YBar, e)), !.
 
-enemy_move:-
+enemy_move(Id) :-
 	/*1 Diam, 2 Bergerak*/
 	random(1, 2, State),
 	State=:=2,
-	enemy(position, X, Y),
+	enemy(Id, position, X, Y),
 	random(1, 4, Arah),
 	/*1 Utara, 2 Timur, 3 Selatan, 4 Barat*/
 	Arah=:=4,
 	XBar is X-1,
 	YBar is Y,
-	retract(enemy(position, X, Y)),
-	assert(enemy(position, XBar, YBar)).
+	retract(enemy(Id, position, X, Y)),
+	assert(enemy(Id, position, XBar, YBar)), 
+	retract(position(X, Y, E)),
+	assertz(position(XBar, YBar, E)), !.
 
 enemy_attack(Id) :-
 	player(position, X, Y),

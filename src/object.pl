@@ -8,7 +8,7 @@
 	ammo(revolver_ammo,6).
 	ammo(shotgun_ammo,10).
 
-	init_medicine:-
+/*	init_medicine:- */
 		
 	
 /* Weapon */

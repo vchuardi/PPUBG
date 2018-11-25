@@ -6,6 +6,8 @@
 
 setup :-
 		createMap,
+		init_player,
+		init_enemy(10),
 		deadzone(1).
 
 start :-
