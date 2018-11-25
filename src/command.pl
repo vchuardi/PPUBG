@@ -250,8 +250,39 @@ use(X) :-
 	write('There is no '), write(X), write(' in your inventory'),!.
 
 /*Drop*/
-drop(X) :- X is X,
-	print("Nanti dikerjain").
+drop(X) :- 
+	player(weapon,X), X = revolver,
+	retract(player(weapon,X)), assertz(player(weapon,none)),
+	inventory(X,Y), Y1 is Y+1,
+	retract(inventory(X,Y)), assertz(inventory(X,Y1)),
+	player(ammo,X1),
+	retract(player(ammo,X1)), assertz(player(ammo,0)),
+	inventory(revolver_ammo,Z), Z1 is Z+X1,
+	retract(inventory(revolver_ammo,Z)), assertz(inventory(revolver_ammo,Z1)),!.
+drop(X) :- 
+	player(weapon,X), X = shotgun,
+	retract(player(weapon,X)), assertz(player(weapon,none)),
+	inventory(X,Y), Y1 is Y+1,
+	retract(inventory(X,Y)), assertz(inventory(X,Y1)),
+	player(ammo,X1),
+	retract(player(ammo,X1)), assertz(player(ammo,0)),
+	inventory(shotgun_ammo,Z), Z1 is Z+X1,
+	retract(inventory(shotgun_ammo,Z)), assertz(inventory(shotgun_ammo,Z1)),!.
+drop(X) :- 
+	X = revolver_ammo, player(ammo,X1),
+	retract(player(ammo,X1)), assertz(player(ammo,0)),
+	inventory(revolver_ammo,Z), Z1 is Z+X1,
+	retract(inventory(revolver_ammo,Z)), assertz(inventory(revolver_ammo,Z1)),!.
+drop(X) :- 
+	X = shotgun_ammo, player(ammo,X1),
+	retract(player(ammo,X1)), assertz(player(ammo,0)),
+	inventory(shotgun_ammo,Z), Z1 is Z+X1,
+	retract(inventory(shotgun_ammo,Z)), assertz(inventory(shotgun_ammo,Z1)),!.
+drop(X) :-
+	inventory(X,Y),
+	Y1 is Y-1,
+	retract(inventory(X,Y)), assertz(inventory(X,Y1)),
+	player(position,A,B), assertz(position(A,B,X)),!.
 
 /*Look*/
 look :-
