@@ -157,7 +157,7 @@ attack :-
 attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
-	PWeapon = 'Revolver',
+	PWeapon = revolver,
 	inventory(revolver_ammo, RAM),
 	player(ammo, PAmmo),
 	damage(PWeapon, PDmg),
@@ -185,7 +185,7 @@ attack :-
 attack :-
 	player(position, PX, PY),
 	player(weapon, PWeapon),
-	PWeapon = 'Shotgun',
+	PWeapon = shotgun,
 	inventory(shotgun_ammo, SAM),
 	player(ammo, PAmmo),
 	damage(PWeapon, PDmg),
