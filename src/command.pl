@@ -58,15 +58,15 @@ w :-
 attack :-
 	player(position, PX, PY),
 	\+ enemy(_, position, PX, PY),
-	write('\n>> Tidak ada Enemy untuk diserang\n'), !.
+	write('\n>> There\'s no enemy to attack\n'), !.
 attack :-
 	player(weapon, PWeapon),
 	PWeapon = none,
-	write('\n>> Tidak ada senjata yang di-equip untuk menyerang\n'), !.
+	write('\n>> There\'s no weapon being equipped\n'), !.
 attack :-
 	player(ammo, PAmmo),
 	PAmmo =< 0,
-	write('\n>> Senjata tidak mempunyai amunisi'), !.
+	write('\n>> You don\'t have any amunition\n'), !.
 
 attack :-
 	player(position, PX, PY),
@@ -109,8 +109,14 @@ attack :-
 	asserta(player(ammo, SisaAmmo)), !.
 
 /*Take*/
-take(X) :- X is X,
-	print("Nanti dikerjain").
+take(O) :-
+	player(position, X, Y),
+	position(X, Y, O),
+	write('You took a/an '), write(O), nl.
+take(O)  :-
+	player(position, X, Y),
+	\+ position(X, Y, O),
+	write('There\'s is no '), write(O), write(' here'), nl.
 
 /*Use*/
 /* Medicine : pill */
