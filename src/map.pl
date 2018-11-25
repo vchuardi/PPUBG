@@ -108,7 +108,7 @@ terrain(5,7,hillside).
 terrain(5,8,aeroplane).
 terrain(5,9,kiosk).
 terrain(5,10,oasis).
-terrain(5,1,marsh).
+terrain(5,11,marsh).
 
 terrain(6,2,pineTree).
 terrain(6,3,airship).
@@ -119,7 +119,7 @@ terrain(6,7,nutField).
 terrain(6,8,pond).
 terrain(6,9,basement).
 terrain(6,10,reefs).
-terrain(6,1,den).
+terrain(6,11,den).
 
 terrain(7,2,rook).
 terrain(7,3,nebula).
