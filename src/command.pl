@@ -16,8 +16,8 @@ status :- 	player(health,H), write('Health: '), write(H), nl,
 
 n :-
 	player(position,X,Y),
-	XBar is X-1,
-	YBar is Y,
+	XBar is X,
+	YBar is Y+1,
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	asserta(player(position, XBar, YBar)),
@@ -26,8 +26,8 @@ n :-
 /*Move East*/
 e :-
 	player(position, X, Y),
-	XBar is X,
-	YBar is Y+1,
+	XBar is X+1,
+	YBar is Y,
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
@@ -36,8 +36,8 @@ e :-
 /*Move South*/
 s :-
 	player(position, X, Y),
-	XBar is X+1,
-	YBar is Y,
+	XBar is X,
+	YBar is Y-1,
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
@@ -46,8 +46,8 @@ s :-
 /*Move West*/
 w :-
 	player(position, X, Y),
-	XBar is X,
-	YBar is Y-1,
+	XBar is X-1,
+	YBar is Y,
 	is_deadzone(XBar,YBar),
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
@@ -62,8 +62,7 @@ attack :-
 attack :-
 	player(weapon, PWeapon),
 	PWeapon = none,
-	write('\n>> Tidak ada senjata yang di-equip untuk menyerang\n'), 
-	enemy_attack()!.
+	write('\n>> Tidak ada senjata yang di-equip untuk menyerang\n'), !.
 attack :-
 	player(ammo, PAmmo),
 	PAmmo =< 0,
