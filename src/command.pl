@@ -24,7 +24,7 @@ n :-
 	retract(player(position, X, Y)),
 	asserta(player(position, XBar, YBar)),
 	show_around(XBar,YBar),
-	player_map(X,Y).
+	player_map(X,Y),!.
 /*Move East*/
 e :-
 	player(position, X, Y),
@@ -34,7 +34,7 @@ e :-
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
 	show_around(XBar,YBar),
-	player_map(X,Y).
+	player_map(X,Y),!.
 /*Move South*/
 s :-
 	player(position, X, Y),
@@ -44,7 +44,7 @@ s :-
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
 	show_around(XBar,YBar),
-	player_map(X,Y).
+	player_map(X,Y),!.
 /*Move West*/
 w :-
 	player(position, X, Y),
@@ -54,7 +54,7 @@ w :-
 	retract(player(position, X, Y)),
 	assertz(player(position, XBar, YBar)),
 	show_around(XBar,YBar),
-	player_map(X,Y).
+	player_map(X,Y),!.
 
 /*Attack*/
 attack :-
@@ -118,7 +118,7 @@ take(O) :-
 	retract(position(X, Y, O)),
 	retract(inventory(O, Nb)),
 	NbNew is Nb+1,
-	assertz(inventory(O, NbNew)).
+	assertz(inventory(O, NbNew)), !.
 take(O)  :-
 	player(position, X, Y),
 	\+ position(X, Y, O),
@@ -131,123 +131,123 @@ use(X) :-
 	X = pill, medicine(X,X1),
 	player(health,Z), Z1 is Z+X1, Z1 =< 100,
 	retract(player(health,Z)), asserta(player(health,Z1)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = pill, medicine(X,X1),
 	player(health,Z), Z1 is Z+X1, Z1 > 100,
 	retract(player(health,Z)), asserta(player(health,100)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 /* Medicine : Bandage */
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = bandage, medicine(X,X1),
 	player(health,Z), Z1 is Z+X1, Z1 =< 100,
 	retract(player(health,Z)), asserta(player(health,Z1)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = bandage, medicine(X,X1),
 	player(health,Z), Z1 is Z+X1, Z1 > 100,
 	retract(player(health,Z)), asserta(player(health,100)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 /* Armor : Helmet */
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = helmet, armor(X,X1),
 	player(armor,Z), Z1 is Z+X1, Z1 =< 100,
 	retract(player(armor,Z)), asserta(player(armor,Z1)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = helmet, armor(X,X1),
 	player(armor,Z), Z1 is Z+X1, Z1 > 100,
 	retract(player(armor,Z)), asserta(player(armor,100)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 /* Armor : Kevlar */	
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = kevlar, armor(X,X1),
 	player(armor,Z), Z1 is Z+X1, Z1 =< 100,
 	retract(player(armor,Z)), asserta(player(armor,Z1)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = kevlar, armor(X,X1),
 	player(armor,Z), Z1 is Z+X1, Z1 > 100,
 	retract(player(armor,Z)), asserta(player(armor,100)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 /* Weapon */
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = revolver, 
 	player(weapon,Z), Z = none,
 	retract(player(weapon,Z)), asserta(player(weapon,X)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 use(X) :- 
 	inventory(X,Y), Y>0, Y1 is Y-1,
 	X = shotgun, 
 	player(weapon,Z), Z = none,
 	retract(player(weapon,Z)), asserta(player(weapon,X)),
-	retract(inventory(X,Y)),asserta(inventory(X,Y1)).
+	retract(inventory(X,Y)),asserta(inventory(X,Y1)),!.
 /* Weapon : Sudah Ada */
 use(X) :- X = revolver,
 	inventory(X,Y), Y>0,
 	player(weapon,Z), Z = revolver,
-	write('You ve been equipped with '), write(Z).
+	write('You ve been equipped with '), write(Z),!.
 use(X) :- X = shotgun,
 	inventory(X,Y), Y>0,
 	player(weapon,Z), Z = revolver,
-	write('You ve been equipped with '), write(Z).
+	write('You ve been equipped with '), write(Z),!.
 use(X) :- X = revolver,
 	inventory(X,Y), Y>0,
 	player(weapon,Z), Z = shotgun,
-	write('You ve been equipped with '), write(Z).
+	write('You ve been equipped with '), write(Z),!.
 use(X) :- X = shotgun,
 	inventory(X,Y), Y>0,
 	player(weapon,Z), Z = shotgun,
-	write('You ve been equipped with '), write(Z).
+	write('You ve been equipped with '), write(Z),!.
 /* Ammo : Revolver */
 use(X) :- 
 	inventory(X,Y), Y>0,
 	X = revolver_ammo, weapon(revolver), ammo(X,X1),
 	player(ammo,Z), Z = X1,
-	write('Your revolver magazine is full').
+	write('Your revolver magazine is full'),!.
 use(X) :- 
 	inventory(X,Y), Y>0,
 	X = revolver_ammo, weapon(revolver), ammo(X,X1), 
 	player(ammo,Z), P1 is Y-X1, P is P1+Z, Y >= X1, 
 	retract(player(ammo,Z)), asserta(player(ammo,6)),
-	retract(inventory(X,Y)),asserta(inventory(X,P)).
+	retract(inventory(X,Y)),asserta(inventory(X,P)),!.
 use(X) :- 
 	inventory(X,Y), Y>0,
 	X = revolver_ammo, weapon(revolver), ammo(X,X1), 
 	player(ammo,Z), P is X1-Z, Y < P, X2 is Z+Y,
 	retract(player(ammo,Z)), asserta(player(ammo,X2)),
-	retract(inventory(X,Y)),asserta(inventory(X,0)).
+	retract(inventory(X,Y)),asserta(inventory(X,0)),!.
 /* Ammo : Shotgun */
 use(X) :- 
 	inventory(X,Y), Y>0,
 	X = shotgun_ammo, weapon(shotgun), ammo(X,X1),
 	player(ammo,Z), Z = X1,
-	write('Your shotgun magazine is full').
+	write('Your shotgun magazine is full'),!.
 use(X) :- 
 	inventory(X,Y), Y>0,
 	X = shotgun_ammo, weapon(shotgun), ammo(X,X1), 
 	player(ammo,Z), P1 is Y-X1, P is P1+Z, Y >= X1, 
 	retract(player(ammo,Z)), asserta(player(ammo,10)),
-	retract(inventory(X,Y)),asserta(inventory(X,P)).
+	retract(inventory(X,Y)),asserta(inventory(X,P)),!.
 use(X) :- 
 	inventory(X,Y), Y>0,
 	X = shotgun_ammo, weapon(shotgun), ammo(X,X1), 
 	player(ammo,Z), P is X1-Z, Y < P, X2 is Z+Y,
 	retract(player(ammo,Z)), asserta(player(ammo,X2)),
-	retract(inventory(X,Y)),asserta(inventory(X,0)).
+	retract(inventory(X,Y)),asserta(inventory(X,0)),!.
 
 /* Tidak Ada di Inventory*/
 use(X) :- 
 	inventory(X,Y), Y=<0, 
-	write('There is no '), write(X), write(' in your inventory').
+	write('There is no '), write(X), write(' in your inventory'),!.
 
 /*Drop*/
 drop(X) :- X is X,
@@ -268,6 +268,9 @@ look :-
 	top_object(X1,Y), write(' '),
 	top_object(X1,Y1), !.
 
+top_object(X,Y) :-
+	enemy(N,position,X,Y),
+	N =< 5, write('E').
 top_object(X,Y) :-
 	position(X,Y,O),
 	O = pill,
