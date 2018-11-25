@@ -1,3 +1,3 @@
 get_random_position(X, Y) :-
-    random(1, 12, X),
-    random(1, 12, Y).
+    random(2, 11, X),
+    random(2, 11, Y).

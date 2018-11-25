@@ -22,7 +22,7 @@
 	player(armor,0).
 	player(weapon,none).
 	player(ammo,0).
-	player(position,3,3).
+	player(position,0,0).
 
 	new_player_Pos:-
 		get_random_position(X, Y),
