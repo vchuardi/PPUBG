@@ -77,6 +77,7 @@ attack :-
 	enemy(Id, position, PX, PY),
 	enemy(Id, armor, EArmor),
 	enemy(Id, health, EHealth),
+	EHealth is EHealth,
 	SisaArmor is EArmor-PDmg,
 	/* Jika armornya > damage PWeapon */
 	SisaArmor >=0, 
